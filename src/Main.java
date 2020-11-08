@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -56,71 +58,119 @@ public class Main
 		String[] line = linea.split(",");
 		mensaje = line[0];
 		algoritmo = line[1];
-	//	if(mensaje!=null && algoritmo!=null && mensaje.length()<=7)
-			//				{
-			//					if(algoritmo.equalsIgnoreCase("MD5"))
-			//					{System.out.println(metds.generarCodigo(msm, MD5)); b=true;}
-			//					else if(algoritmo.equalsIgnoreCase("SHA256"))
-			//					{metds.generarCodigo(msm, SHA256); b=true;}
-			//					else if(algoritmo.equalsIgnoreCase("SHA384"))
-			//					{metds.generarCodigo(msm, SHA384); b=true;}
-			//					else if(algoritmo.equalsIgnoreCase("SHA512"))
-			//					{metds.generarCodigo(msm, SHA512); b=true;}
-			//				}	
+		//	if(mensaje!=null && algoritmo!=null && mensaje.length()<=7)
+		//				{
+		//					if(algoritmo.equalsIgnoreCase("MD5"))
+		//					{System.out.println(metds.generarCodigo(msm, MD5)); b=true;}
+		//					else if(algoritmo.equalsIgnoreCase("SHA256"))
+		//					{metds.generarCodigo(msm, SHA256); b=true;}
+		//					else if(algoritmo.equalsIgnoreCase("SHA384"))
+		//					{metds.generarCodigo(msm, SHA384); b=true;}
+		//					else if(algoritmo.equalsIgnoreCase("SHA512"))
+		//					{metds.generarCodigo(msm, SHA512); b=true;}
+		//				}	
 		//String hash = metds.generarCodigo(mensaje, MD5);
 		//System.out.println(hash);
 		//combinations2(alfabeto, 3, 0, new String[3]); 
 	}
 
-	public void CrearDiccionarios() throws IOException
+	public void crearDiccionario(ArrayList<String> array, String alg) throws IOException
 	{
-		File file = null;
-		for(int i=0; i<7; i++)
+		FileWriter fw = new FileWriter("data/Diccionario.txt");
+		PrintWriter pw = new PrintWriter(fw);
+
+		for(int i=0; i<array.size(); i++)
 		{
-			file = new File("data/Diccionario"+(i+1)+".txt");
-			FileWriter fw = new FileWriter(file.getAbsoluteFile(),true);
-			BufferedWriter bw = new BufferedWriter(fw);
-
-			bw.append("c");
-			bw.close();
+			String act = array.get(i);
+			pw.println(act + "," + metds.generarCodigo(act,alg));
 		}
-
-
+		fw.close();
 	}
-
-	public String[] Combinaciones (int n)
-	{
-
-		return null;
-	}
-
-	public void combinations2(String[] alfabeto2, int len, int startPosition, String[] result)
-	{ 
-		if (len == 0)
-		{ 
-			System.out.println(Arrays.toString(result)); 
-			return; 
-		} 
-		for (int i = startPosition; i <= alfabeto2.length-len; i++)
-		{ 
-			result[result.length - len] = alfabeto2[i];
-			combinations2(alfabeto2, len-1, i+1, result); 
-		}
-	} 
 	
-//	public void print_combinations(char string) 
-//	{ 
-//		int i, j, k; 
-//		int len = strlen(string); 
-//		for (i = 0; i < len - 2; i++)
-//		{ 
-//			for (j = i + 1; j < len - 1; j++)
-//			{
-//				for (k = j + 1; k < len; k++) 
-//					printf("%c%c%c\n", string[i], string[j], string[k]); 
-//			}
-//		}
-//	} 
+	public ArrayList<String> lista2() throws IOException
+	{
+		ArrayList<String> array = new ArrayList<String>();
+
+		for(int i=0; i<alfabeto.length; i++)
+		{
+			for(int j=0; j<alfabeto.length; j++)
+			{
+				array.add(alfabeto[i]+alfabeto[j]);
+			}
+		}
+		return array;
+	}
+	
+	public ArrayList<String> lista3() throws IOException
+	{
+		ArrayList<String> array = new ArrayList<String>();
+		ArrayList<String> anterior = lista2();
+
+		for(int i=0; i<anterior.size(); i++)
+		{
+			for(int j=0; j<alfabeto.length; j++)
+			{
+				array.add(anterior.get(i)+alfabeto[j]);
+			}
+		}
+		return array;
+	}
+	public ArrayList<String> lista4() throws IOException
+	{
+		ArrayList<String> array = new ArrayList<String>();
+		ArrayList<String> anterior = lista3();
+
+		for(int i=0; i<anterior.size(); i++)
+		{
+			for(int j=0; j<alfabeto.length; j++)
+			{
+				array.add(anterior.get(i)+alfabeto[j]);
+			}
+		}
+		return array;
+	}
+	public ArrayList<String> lista5() throws IOException
+	{
+		ArrayList<String> array = new ArrayList<String>();
+		ArrayList<String> anterior = lista4();
+
+		for(int i=0; i<anterior.size(); i++)
+		{
+			for(int j=0; j<alfabeto.length; j++)
+			{
+				array.add(anterior.get(i)+alfabeto[j]);
+			}
+		}
+		return array;
+	}
+	public ArrayList<String> lista6() throws IOException
+	{
+		ArrayList<String> array = new ArrayList<String>();
+		ArrayList<String> anterior = lista5();
+
+		for(int i=0; i<anterior.size(); i++)
+		{
+			for(int j=0; j<alfabeto.length; j++)
+			{
+				array.add(anterior.get(i)+alfabeto[j]);
+			}
+		}
+		return array;
+	}
+	public ArrayList<String> lista7() throws IOException
+	{
+		ArrayList<String> array = new ArrayList<String>();
+		ArrayList<String> anterior = lista6();
+
+		for(int i=0; i<anterior.size(); i++)
+		{
+			for(int j=0; j<alfabeto.length; j++)
+			{
+				array.add(anterior.get(i)+alfabeto[j]);
+			}
+		}
+		return array;
+	}
 }
 
 
