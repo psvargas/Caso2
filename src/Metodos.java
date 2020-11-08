@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.MessageDigest;
@@ -5,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Metodos 
 {
-	
+
 
 	/***
 	 *Convierte un arreglo de bytes a String usando valores hexadecimales
@@ -45,7 +49,26 @@ public class Metodos
 			System.out.println("Error creando Digest");
 			return null;
 		}
-		
+
+	}
+
+	public String identificar_entrada(String codigo, String algoritmo) throws IOException
+	{
+		BufferedReader bf = new BufferedReader(new FileReader("data/diccionario.txt"));
+		String c = bf.readLine();
+		String  cadena = null;
+		boolean encontro = false;
+		while (cadena!=null && !encontro) 
+		{
+			String[] cad = cadena.split(",");
+			if(codigo.equals(cad[1]))
+			{
+				encontro = true;
+				cadena = cad[0];	
+			}
+		}
+
+		return cadena;
 	}
 
 }

@@ -50,31 +50,87 @@ public class Main
 		//			}
 		//		}
 
-		String mensaje=null;
+		boolean b=false;
+		String mensaje = null;
 		String algoritmo = null;
 		Scanner consola = new Scanner(System.in);
-		System.out.println("Ingrese el mensaje seguido de el algoritmo (MD5, SHA256, SHA384 o SHA512) separado por ',' Ejemplo: holahola,MD5 ");
-		String linea=consola.nextLine();
-		String[] line = linea.split(",");
-		mensaje = line[0];
-		algoritmo = line[1];
-		//	if(mensaje!=null && algoritmo!=null && mensaje.length()<=7)
-		//				{
-		//					if(algoritmo.equalsIgnoreCase("MD5"))
-		//					{System.out.println(metds.generarCodigo(msm, MD5)); b=true;}
-		//					else if(algoritmo.equalsIgnoreCase("SHA256"))
-		//					{metds.generarCodigo(msm, SHA256); b=true;}
-		//					else if(algoritmo.equalsIgnoreCase("SHA384"))
-		//					{metds.generarCodigo(msm, SHA384); b=true;}
-		//					else if(algoritmo.equalsIgnoreCase("SHA512"))
-		//					{metds.generarCodigo(msm, SHA512); b=true;}
-		//				}	
-		//String hash = metds.generarCodigo(mensaje, MD5);
-		//System.out.println(hash);
-		//combinations2(alfabeto, 3, 0, new String[3]); 
+		while(b==false)
+		{
+			System.out.println("Ingrese el mensaje seguido de el algoritmo (MD5, SHA256, SHA384 o SHA512) separado por ',' Ejemplo: holahola,MD5 ");
+			String linea = consola.nextLine();
+			String[] line = linea.split(",");
+			mensaje = line[0];
+			algoritmo = line[1];
+			String hash=null;
+
+			if(mensaje!=null && algoritmo!=null && mensaje.length()<=7)
+			{
+				if(algoritmo.equalsIgnoreCase("MD5"))
+				{
+					hash = metds.generarCodigo(mensaje, MD5); 
+					identificarTam(mensaje, MD5);
+					b=true;
+				}
+				else if(algoritmo.equalsIgnoreCase("SHA256"))
+				{
+					hash = metds.generarCodigo(mensaje, SHA256);
+					identificarTam(mensaje, SHA256);
+					b=true;
+				}
+				else if(algoritmo.equalsIgnoreCase("SHA384"))
+				{
+					hash = metds.generarCodigo(mensaje, SHA384);
+					identificarTam(mensaje, SHA384);
+					b=true;
+				}
+				else if(algoritmo.equalsIgnoreCase("SHA512"))
+				{
+					hash = metds.generarCodigo(mensaje, SHA512);
+					identificarTam(mensaje, SHA512);
+					b=true;
+				}
+				else
+					System.out.println("El algoritmo no es correcto");
+			}
+			else
+				System.out.println("Hubo algún problema");
+
+			System.out.println("Código criptográfico de hash: "+hash);
+			
+			String cadena = metds.identificar_entrada(hash, algoritmo);
+			
+			if(cadena!=null)
+				System.out.println("La cadena que se usó para generar el código fue: " + cadena );
+			else 
+				System.out.println("No se encontró respuesta");
+
+		}
 	}
 
-	public void crearDiccionario(ArrayList<String> array, String alg) throws IOException
+	public static void identificarTam(String msm, String alg) throws IOException
+	{
+		int n = msm.length();
+		if(n==1)
+		{
+			FileWriter fw = new FileWriter("data/diccionario.txt");
+			PrintWriter pw = new PrintWriter(fw);
+
+			for(int i=0; i<alfabeto.length; i++)
+			{
+				String act = alfabeto[i];
+				pw.println(act + "," + metds.generarCodigo(act,alg));
+			}
+			fw.close();
+		}
+		else if(n==2) crearDiccionario(lista2(),alg);
+		else if(n==3) crearDiccionario(lista3(),alg);
+		else if(n==4) crearDiccionario(lista4(),alg);
+		else if(n==5) crearDiccionario(lista5(),alg);
+		else if(n==6) crearDiccionario(lista6(),alg);
+		else crearDiccionario(lista7(),alg);
+
+	}
+	public static void crearDiccionario(ArrayList<String> array, String alg) throws IOException
 	{
 		FileWriter fw = new FileWriter("data/Diccionario.txt");
 		PrintWriter pw = new PrintWriter(fw);
@@ -86,8 +142,8 @@ public class Main
 		}
 		fw.close();
 	}
-	
-	public ArrayList<String> lista2() throws IOException
+
+	public static ArrayList<String> lista2() throws IOException
 	{
 		ArrayList<String> array = new ArrayList<String>();
 
@@ -100,8 +156,8 @@ public class Main
 		}
 		return array;
 	}
-	
-	public ArrayList<String> lista3() throws IOException
+
+	public static ArrayList<String> lista3() throws IOException
 	{
 		ArrayList<String> array = new ArrayList<String>();
 		ArrayList<String> anterior = lista2();
@@ -115,7 +171,7 @@ public class Main
 		}
 		return array;
 	}
-	public ArrayList<String> lista4() throws IOException
+	public static ArrayList<String> lista4() throws IOException
 	{
 		ArrayList<String> array = new ArrayList<String>();
 		ArrayList<String> anterior = lista3();
@@ -129,7 +185,7 @@ public class Main
 		}
 		return array;
 	}
-	public ArrayList<String> lista5() throws IOException
+	public static ArrayList<String> lista5() throws IOException
 	{
 		ArrayList<String> array = new ArrayList<String>();
 		ArrayList<String> anterior = lista4();
@@ -143,7 +199,7 @@ public class Main
 		}
 		return array;
 	}
-	public ArrayList<String> lista6() throws IOException
+	public static ArrayList<String> lista6() throws IOException
 	{
 		ArrayList<String> array = new ArrayList<String>();
 		ArrayList<String> anterior = lista5();
@@ -157,7 +213,7 @@ public class Main
 		}
 		return array;
 	}
-	public ArrayList<String> lista7() throws IOException
+	public static ArrayList<String> lista7() throws IOException
 	{
 		ArrayList<String> array = new ArrayList<String>();
 		ArrayList<String> anterior = lista6();
